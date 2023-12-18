@@ -1,10 +1,13 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import Datatable from "@kruti2502/custom-react-datatable";
+import rows from "../data.json";
 
 interface ColumnType {
   key: keyof (typeof rows)[0];
   label: string;
   minWidth?: string;
+  onClick?: (row: any, column: any) => void;
+  styles?: object;
 }
 
 interface RowType {
@@ -13,33 +16,26 @@ interface RowType {
   link: string;
 }
 
-const rows: RowType[] = [
-  {
-    id: 1,
-    title: "",
-    link: "",
-  },
-  // {
-  //   id: 2,
-  //   first_name: "Bondon",
-  //   last_name: "Reasce",
-  // },
-  // {
-  //   id: 3,
-  //   first_name: "Davin",
-  //   last_name: "Towlson",
-  // },
-  // {
-  //   id: 4,
-  //   first_name: "Barnebas",
-  //   last_name: "Ferraraccio",
-  // },
-];
+const onclick = (row: any, column: any) => {
+  const url = `http://localhost:3000/pdfs/${row[column.key]}`;
+  const fileName = url.split("/").pop();
+  const aTag = document.createElement("a");
+  aTag.href = url;
+  aTag.setAttribute("download", fileName!);
+  document.body.appendChild(aTag);
+  aTag.click();
+  aTag.remove();
+};
+
+const styles = {
+  color: "blue",
+  cursor: "pointer",
+};
 
 const columns: ColumnType[] = [
   { key: "id", label: "ID" },
-  { key: "title", label: "Title", minWidth: "500" },
-  { key: "link", label: "Link" },
+  { key: "title", label: "Title" },
+  { key: "link", label: "Link", onClick: onclick, styles: styles },
 ];
 
 function ListOfPdfs() {
@@ -47,16 +43,8 @@ function ListOfPdfs() {
     <Datatable
       {...{ columns, rows }}
       sortable
-      paginator
-      noOfRowsPerPage={8}
-      resizableColumns
       draggable
-      filterable
-      defaultCheckedCols={["id"]}
-      maxHeight={"1000"}
       headerColor={"#3cb371"}
-      evenRowColor={"rgb(250, 250, 250)"}
-      oddRowColor={"rgb(240, 240, 240)"}
       showGridLines
     />
   );
