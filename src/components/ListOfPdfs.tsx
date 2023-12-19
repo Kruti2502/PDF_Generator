@@ -16,7 +16,7 @@ interface RowType {
   link: string;
 }
 
-const onclick = (row: any, column: any) => {
+const onclick = (row: RowType, column: ColumnType) => {
   const url = `http://localhost:3000/pdfs/${row[column.key]}`;
   const fileName = url.split("/").pop();
   const aTag = document.createElement("a");
