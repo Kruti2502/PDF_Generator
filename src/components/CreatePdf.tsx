@@ -1,18 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import debounce from "../utility/debounce";
 import jsPDF from "jspdf";
+import "./CreatePdf.css";
 
 function CreatePdf() {
   const componentPDF = useRef<HTMLTextAreaElement>(null);
-
   const [pdfContent, setPdfContent] = useState("");
 
   const handleGeneratePdf = () => {
     var htmlContent = document.getElementById("myTable");
     // Generate PDF content based on your requirements
     const content = htmlContent;
-    // setPdfContent(content);
 
     // Generate PDF using jsPDF
     const pdf = new jsPDF();
@@ -31,33 +30,35 @@ function CreatePdf() {
 
   const onTextChange = debounce(handleGeneratePdf, 200);
 
-  useEffect(() => {
-    console.log("Some data has been changed!");
-  }, [document.getElementById("myTable")]);
-
   return (
-    <div>
-      <textarea
-        ref={componentPDF}
-        onChange={onTextChange}
-        title="bodyArea"
-        id="myTable"
-        name="w3review"
-        rows={4}
-        cols={50}
-      />
-      <button onClick={handlePrint}>Export as PDF</button>
-      {pdfContent && (
-        <div>
-          <iframe
-            title="PDF Preview"
-            src={pdfContent}
-            width="55%"
-            height="500px"
+    <>
+      <button className="btn" onClick={handlePrint}>
+        Export as PDF
+      </button>
+      <div className="preview_container">
+        <div className="input_container">
+          <textarea
+            ref={componentPDF}
+            onChange={onTextChange}
+            title="bodyArea"
+            id="myTable"
+            name="w3review"
+            rows={35}
+            cols={50}
           />
         </div>
-      )}
-    </div>
+        {pdfContent && (
+          <div className="preview_pdf">
+            <iframe
+              title="PDF Preview"
+              src={pdfContent}
+              width="80%"
+              height="550px"
+            />
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 

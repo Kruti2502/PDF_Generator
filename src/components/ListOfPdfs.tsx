@@ -1,6 +1,7 @@
 import React from "react";
 import Datatable from "@kruti2502/custom-react-datatable";
 import rows from "../data.json";
+import "./ListOfPdfs.css";
 
 interface ColumnType {
   key: keyof (typeof rows)[0];
@@ -40,13 +41,9 @@ const columns: ColumnType[] = [
 
 function ListOfPdfs() {
   return (
-    <Datatable
-      {...{ columns, rows }}
-      sortable
-      draggable
-      headerColor={"#3cb371"}
-      showGridLines
-    />
+    <div className="table_container">
+      <Datatable {...{ columns, rows }} sortable draggable showGridLines />
+    </div>
   );
 }
 

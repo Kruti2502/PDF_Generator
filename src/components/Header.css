@@ -1,0 +1,12 @@
+.nav_links {
+  margin: 25px 100px 50px 100px;
+  text-align: end;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav_link {
+  text-decoration: none;
+  color: black;
+  font-size: 25px;
+}
